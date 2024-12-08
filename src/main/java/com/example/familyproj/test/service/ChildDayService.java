@@ -13,12 +13,15 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
 @Service
 public class ChildDayService {
     @Autowired
     private ChildRepository repository;
-  @Autowired
-    private StateMachine<ChildDay, ChildEvent> sm;
+*/
+/*  @Autowired
+    private StateMachine<ChildDay, ChildEvent> sm;*//*
+
     @Autowired
     private ChildDayChangeInterceptor childDayChangeInterceptor;
 
@@ -62,3 +65,4 @@ public class ChildDayService {
         return stateMachine;
     }
 }
+*/

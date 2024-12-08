@@ -27,16 +27,21 @@ import java.util.EnumSet;
 import java.util.Random;
 
 
+/*
 @Slf4j
-/*@EnableStateMachineFactory*/
-/*@EnableStateMachine*/
+*/
+/*@EnableStateMachineFactory*//*
+
+*/
+/*@EnableStateMachine*//*
+
 @Configuration
 public class ChildStateMachineConfig {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @Bean
-    public StateMachine<ChildDay, ChildEvent> stateMachine(String s) throws Exception {
+    public StateMachine<ChildDay, ChildEvent> stateMachine() throws Exception {
         StateMachineBuilder.Builder<ChildDay, ChildEvent> builder = StateMachineBuilder.builder();
 
         builder.configureStates()
@@ -109,3 +114,4 @@ public class ChildStateMachineConfig {
     }
 
 }
+*/

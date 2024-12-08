@@ -4,6 +4,8 @@ import com.example.familyproj.test.entity.state.ChildDay;
 import com.example.familyproj.test.entity.state.ChildEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.StateMachineBuilder;
@@ -15,15 +17,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class DayStateMachineBuilder {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private StateMachineBuilder.Builder<ChildDay, ChildEvent> builder;
+
+    public DayStateMachineBuilder() {
+        this.builder = StateMachineBuilder.builder();
+    }
+
 
     public StateMachine<ChildDay, ChildEvent> buildMachine() throws Exception {
-        StateMachineBuilder.Builder<ChildDay, ChildEvent> builder = StateMachineBuilder.builder();
+       /* StateMachineBuilder.Builder<ChildDay, ChildEvent> builder = StateMachineBuilder.builder();*/
 
-
-        builder.configureConfiguration()
-                .withConfiguration()
-                .listener(listener())
-                .autoStartup(true);
 
         builder.configureStates()
                 .withStates()
@@ -32,29 +35,30 @@ public class DayStateMachineBuilder {
                 .state(ChildDay.WEEKDAY)
                 .end(ChildDay.END);
 
-        /*builder.configureTransitions()
-                .withExternal()
-                .source(source)
-                .target(target)
-                .event(event);*/
-
+        builder.configureConfiguration()
+                .withConfiguration()
+                .listener(listener())
+                .autoStartup(true);
+     /*   builder.configureTransitions().withExternal().source(ChildDay.NEW).target(ChildDay.NEW).event(ChildEvent.LEISURE_ACTIVITY);*/
         return builder.build();
     }
-    public DayStateMachineBuilder build(String source, String target, String event, Action<ChildDay, ChildEvent> action) throws Exception {
-        StateMachineBuilder.Builder<ChildDay, ChildEvent> builder = StateMachineBuilder.builder();
+
+    public DayStateMachineBuilder build(ChildDay source, ChildDay target, ChildEvent event,
+                                        Action<ChildDay, ChildEvent> action) throws Exception {
 
         if (action != null) {
             builder.configureTransitions()
                     .withExternal()
-                    .source(ChildDay.valueOf(source))
-                    .target(ChildDay.valueOf(target))
-                    .event(ChildEvent.valueOf(event))
+                    .source(source)
+                    .target(target)
+                    .event(event)
                     .action(action);
         } else {
             builder.configureTransitions()
                     .withExternal()
                     .source(source)
-                    .target(target);
+                    .target(target)
+                    .event(event);
         }
 
 
@@ -65,7 +69,7 @@ public class DayStateMachineBuilder {
         return new StateMachineListenerAdapter<ChildDay, ChildEvent>() {
             @Override
             public void stateChanged(State<ChildDay, ChildEvent> from, State<ChildDay, ChildEvent> to) {
-                logger.info("State change from " + from.getId() + "to " + to.getId());
+                logger.info("State change from " + from.getIds() + " to " + to.getIds());
             }
         };
     }
